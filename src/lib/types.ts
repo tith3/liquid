@@ -3,3 +3,11 @@ export interface PaneData {
     index: number;
     text: string;
 }
+
+export interface PaneDimensions {
+    rows: number;
+    cols: number;
+    maxRows: number;
+    maxCols: number;
+    vertical: boolean;
+}
