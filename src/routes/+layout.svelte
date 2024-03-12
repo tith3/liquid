@@ -11,7 +11,7 @@
 	import HeaderControls from '$lib/components/HeaderControls.svelte';
 </script>
 
-<AppShell>
+<AppShell slotHeader='z-11'>
 	<svelte:fragment slot="header">
 		<AppBar padding='py-0 px-4 '>
 			<svelte:fragment slot="lead">
@@ -24,6 +24,8 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
+	
 	<slot/>
 </AppShell>
+
 
