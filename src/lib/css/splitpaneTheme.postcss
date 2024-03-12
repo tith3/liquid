@@ -1,0 +1,61 @@
+/* splitpaneTheme.postcss */
+
+/* Customizing the pane */
+.splitpanes__pane {
+    @apply bg-primary-200/20; /* This applies a background color based on Skeleton's surface color tokens */
+    @apply text-base-token; /* Sets the text color based on the base theme */
+    @apply rounded-lg; /* Applies a border-radius as defined in your Skeleton theme */
+  }
+  
+  /* Customizing the splitter */
+  .splitpanes__splitter {
+    @apply bg-primary-700/0; /* Background color of the splitter */
+    @apply border-token; /* Applies the border style as per the Skeleton theme */
+    @apply cursor-col-resize; /* Cursor style when hovering over the splitter */
+    @apply w-4;
+    
+    @apply relative flex ;
+
+    
+  }
+  .splitpanes--vertical > .splitpanes__splitter {
+    &:hover::after, &:active::after {
+      content: url('/assets/icons/dots-three-vertical-bright.svg'); /* Path to your icon */
+      @apply relative;
+      top: 50%; 
+      left: 50%; 
+      @apply w-4 h-4;
+      transform: translate(-100%, -100%); 
+      }
+
+    &:after {
+      content: url('/assets/icons/dots-three-vertical.svg'); /* Path to your icon */
+      @apply relative;
+      top: 50%; 
+      left: 50%; 
+      @apply w-4 h-4;
+      transform: translate(-100%, -100%); 
+    }
+    
+  }
+
+  .splitpanes--horizontal > .splitpanes__splitter {
+    &:hover::after {
+      content: url('/assets/icons/dots-three-bright.svg'); /* Path to your icon */
+      @apply relative;
+      top: 50%; 
+      left: 50%; 
+      @apply w-4 h-4;
+      transform: translate(-100%, -100%); 
+      }
+
+    &:after {
+      content: url('/assets/icons/dots-three.svg'); /* Path to your icon */
+      @apply relative;
+      top: 50%; 
+      left: 50%; 
+      @apply w-4 h-4;
+      transform: translate(-100%, -100%); 
+    }
+    
+  }
