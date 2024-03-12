@@ -15,10 +15,10 @@
 		<AppBar padding='p-3'>
 			<svelte:fragment slot="lead">
 				<Icon width='12' height='12'/>
-				<p class='text-xl uppercase'> liquid </p>
+				<p class='text-xl uppercase p-4'> liquid </p>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<slot />
+	<slot/>
 </AppShell>
 
