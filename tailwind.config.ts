@@ -20,6 +20,10 @@ export default {
 						name: 'rocket',
 						enhancements: true,
 					},
+					{
+						name: 'vintage',
+						enhancements: true,
+					}
 				],
 			},
 		}),
