@@ -11,14 +11,13 @@
   .splitpanes__splitter {
     @apply bg-primary-700/0; /* Background color of the splitter */
     @apply border-token; /* Applies the border style as per the Skeleton theme */
-    @apply cursor-col-resize; /* Cursor style when hovering over the splitter */
-    @apply w-4;
-    
     @apply relative flex ;
 
     
   }
   .splitpanes--vertical > .splitpanes__splitter {
+    @apply w-4;
+    @apply cursor-col-resize;
     &:hover::after, &:active::after {
       content: url('/assets/icons/dots-three-vertical-bright.svg'); /* Path to your icon */
       @apply relative;
@@ -40,7 +39,9 @@
   }
 
   .splitpanes--horizontal > .splitpanes__splitter {
-    &:hover::after {
+    @apply h-4;
+    @apply cursor-row-resize;
+    &:hover::after, &:active::after {
       content: url('/assets/icons/dots-three-bright.svg'); /* Path to your icon */
       @apply relative;
       top: 50%; 
@@ -53,7 +54,7 @@
       content: url('/assets/icons/dots-three.svg'); /* Path to your icon */
       @apply relative;
       top: 50%; 
-      left: 50%; 
+      left: 50%;
       @apply w-4 h-4;
       transform: translate(-100%, -100%); 
     }
