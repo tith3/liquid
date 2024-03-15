@@ -38,12 +38,14 @@
 <button id="close-settings" type="button" class="btn-icon absolute top-0 right-0">
     <X size="40%"/>
 </button>
+<hr  />
 <!-- Tooltips -->
 <div class="card variant-filled text-xs p-1" data-popup="rowToolTip"> number of rows of panes </div>
 <div class="card variant-filled text-xs p-1" data-popup="colToolTip"> number of columns of panes </div>
 <div class="card variant-filled text-xs p-1" data-popup="horiToolTip"> prioritize putting panes next to each other </div>
 <div class="card variant-filled text-xs p-1" data-popup="vertToolTip"> prioritize putting panes on top of each other </div>
 <!-- /Tooltips -->
+
 <Accordion padding="px-2 py-2" regionControl='space-x-1' caretClosed="-rotate-90" caretOpen="rotate-0">
     <AccordionItem open class="mx-0">
         <svelte:fragment slot="lead">
