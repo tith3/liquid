@@ -47,7 +47,7 @@
 				<Splitpanes theme="" horizontal={true}>
 					{#each colPanes as pane, j}
 						<Pane minSize={2}>
-							<PaneContents text={pane.text} index={pane.index}/>
+							<PaneContents paneData={pane}/>
 						</Pane>
 					{/each}
 				</Splitpanes>
@@ -61,7 +61,7 @@
 				<Splitpanes theme="" horizontal={false}>
 					{#each rowPanes as pane, j}
 						<Pane minSize={2}>
-							<PaneContents text={pane.text} index={pane.index}/>
+							<PaneContents paneData={pane}/>
 						</Pane>
 					{/each}
 				</Splitpanes>
