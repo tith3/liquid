@@ -17,14 +17,14 @@ const defaultPaneDimensions: PaneDimensions = {
 //store the dimensions of the panes
 export const paneDimensions: Writable<PaneDimensions> = localStorageStore('paneDimensions', defaultPaneDimensions)
 
-export function addPane(text: string) {
+export function addPane(text: string,) {
     const maxPanes = get(paneDimensions).rows * get(paneDimensions).cols
     if (get(panes).length >= maxPanes) {
         return;
     }
     panes.update((panes) => {
         const index = panes.length
-        return [...panes, { index, text }]
+        return [...panes, { index, text, headerExpanded: true}]
     })
 }
 
@@ -35,20 +35,20 @@ export function removePane(index: number) {
     }
     //remove the pane with the given index
     panes.update((panes) => {
-        return panes.filter((pane) => pane.index !== index)
-    })
-    //update the index of the remaining panes
-    //this probably doesn't work how I want it to
-    panes.update((panes) => {
-        return panes.map((pane, i) => {
-            return { ...pane, index: i }
-        })
-    })
+        const newPanes = panes.filter((pane) => pane.index !== index);
+        return newPanes.map((pane, i) => {
+            return { ...pane, index: i, headerExpanded: pane.headerExpanded }
+        });
+    });
 }
 
 export function resetPanes() {
-    const newPane = { index: 0, text: '0' }
+    const newPane = { index: 0, text: '0', headerExpanded: true}
     panes.set([newPane])
+}
+
+export function toggleHeaderExpanded(index: number) {
+    panes.update(panes => panes.map((pane, i) => i === index ? { ...pane, headerExpanded: !pane.headerExpanded } : pane));
 }
 
 export function shrinkPanes() {
