@@ -14,8 +14,10 @@
 	import HeaderControls from '$lib/components/HeaderControls.svelte';
 	
 </script>
-
+<!-- Necassary to allow toasts -->
 <Toast />
+
+<!-- AppShell -->
 <AppShell slotHeader='z-11'>
 	<svelte:fragment slot="header">
 		<AppBar padding='py-0 px-4 '>
