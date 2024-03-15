@@ -22,8 +22,7 @@
     <button type="button" disabled={$panes.length >= ($paneDimensions.rows * $paneDimensions.cols)} class="btn variant-filled" on:click={() => {addPane(text)}}>Add Pane</button>
     <button type="button" class="btn variant-filled" on:click={() => {resetPanes()}}>Reset Panes</button>
     <button type="button" class="btn-icon variant-filled flex" use:popup={popupSettings}>
-        <GearSix size='80%'/>
+        <GearSix weight='fill'  size='80%'/>
     </button>
-    
     
 </div>
