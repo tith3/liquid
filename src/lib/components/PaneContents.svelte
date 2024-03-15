@@ -1,19 +1,30 @@
 <script lang='ts'>
     import {AppShell, AppBar} from '@skeletonlabs/skeleton';  
-    import {removePane} from '$lib/stores/panes';  
+    import {removePane, toggleHeaderExpanded} from '$lib/stores/panes';  
+    import { X, CaretDoubleRight } from 'phosphor-svelte';
+    import type { PaneData } from '$lib/types';
+    
+    
 
-    export let index: number;
-    export let text = 'error';
+    export let paneData: PaneData;
+    $: ({text, index, headerExpanded} = paneData);
+    
+
 </script>
 
-<AppShell class="bg-primary-200/20">
+<AppShell class="variant-glass-surface rounded-lg">
     <svelte:fragment slot="header">
-        <AppBar padding='py-0 px-4 '>
+        <AppBar padding='h-7 {headerExpanded ? 'w-full' : 'w-7'}' background='variant-ghost-surface rounded-t-lg {headerExpanded ? 'rounded-t-lg' : 'rounded-lg'}'>
             <svelte:fragment slot="lead">
-                <p class='text-xl uppercase p-4'> {text} </p>
+                <button type= 'button' class='btn h-7 w-7 p-0 hover:variant-glass-surface {headerExpanded ? '' : 'rounded-lg'}' on:click={() => {toggleHeaderExpanded(index)}}>
+                    <CaretDoubleRight class='fill-token {headerExpanded ? 'rotate-180' : 'rotate-0'}'/>
+                </button>
             </svelte:fragment>
+                <p class='text h-7'>{text}</p>
             <svelte:fragment slot="trail">
-                <button type='button' class='btn text-xl variant-glass-primary uppercase' on:click={() => {removePane(index)}}> X </button>
+                <button type= 'button' class='btn h-7 w-7 p-0 top-0 right-0 absolute hover:variant-glass-surface ' on:click={() => {removePane(index)}}>
+                    <X class='fill-token'/>
+                </button>
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>
