@@ -24,17 +24,20 @@ In the settings you will find pane settings. They should be self explanatory how
 
 Though simple, these settings in addition to resizing the panes give a high level of control over the layout of your graphs.
 
+This is a work in progress and early days at that! Many more features to come but it may feel a little jank atm.
 
 ## Roadmap
 
-Pair explorer
+-Pair explorer
 
-More advanced graph features (very basic atm)
+-More advanced graph features (very basic atm)
 
-Graph desync (different tokens on different graph, independant time series and movement)
+-Graph desync (different tokens on different graph, independant time series and movement)
 
-Use pair or token address (currently only token address)
+-Use pair or token address (currently only token address)
 
-More data options 
+-More data options 
 
-More display options (candlestick, tables for table data)
+-More display options (candlestick, tables for table data)
+
+
