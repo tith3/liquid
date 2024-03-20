@@ -10,6 +10,21 @@ Check it out [here](liquid-omega.vercel.app)
 
 Get the token address for the pair you're interested in then go!
 
+### Pane Configuration
+
+In the settings you will find pane settings. They should be self explanatory however in case they're not.
+
+-Rows: the number of rows of panes.
+
+-Cols: the number of columns of panes.
+
+-Priority vert: prioritize stacking panes before putting them side by side. i.e. make new rows before new columns.
+
+-Priority hori: prioritize putting panes side by side before stacking them. i.e. make new columns before new rows.
+
+Though simple, these settings in addition to resizing the panes give a high level of control over the layout of your graphs.
+
+
 ## Roadmap
 
 Pair explorer
