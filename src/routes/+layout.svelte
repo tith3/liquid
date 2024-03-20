@@ -16,7 +16,9 @@
 	//chartjs tree shaking
 	import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale } from 'chart.js';
 	import autocolors from 'chartjs-plugin-autocolors';
-	ChartJS.register(autocolors, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale);
+	import CrossHairPlugin from 'chartjs-plugin-crosshair';
+
+	ChartJS.register(autocolors, CrossHairPlugin, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale);
 
 </script>
 <!-- Necassary to allow toasts -->
