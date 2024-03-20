@@ -6,12 +6,20 @@
     import { type PaneData, DSDataPointNames } from '$lib/types';
     import { dsDataSet } from '$lib/stores/dsdata';
     import {getDataPointByName} from '$lib/utils/dsdata';
-    import { Chart, type EChartsOptions } from 'svelte-echarts';
-    import { onMount, tick } from 'svelte';
 
     export let paneData: PaneData;
     $: ({dataPointName, index, headerExpanded} = paneData);
     
+    let chart: any;
+    function resetZoom(){
+        //emit event to reset zoom
+        var event: any = new CustomEvent('reset-zoom-event', {
+        });
+        // for zome reason it only resets zoom for charts with id != chartId, so -1 works
+        event.chartId = -1;
+        event.syncGroup = 1;
+        window.dispatchEvent(event);
+    }
     //  Graph
     let data = {
         labels: [] as string[],
@@ -23,49 +31,6 @@
             }
         ]
     };
-
-    // const options: EChartsOptions = {
-    // xAxis: {
-    //   data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    //   type: 'category',
-    // },
-    // yAxis: {
-    //   type: 'value',
-    // },
-    // series: [
-    //   {
-    //     data: [820, 932, 901, 934, 1290, 1330, 1320],
-    //     type: 'bar',
-    //   },
-    // ],
-    // };
-
-    let chartRef: Chart;
-    let resizeObserver: ResizeObserver;
-    onMount(() => {
-    // Define the resize observer logic
-    const initResizeObserver = () => {
-      if (chartRef && chartRef.$el) {
-        resizeObserver = new ResizeObserver(entries => {
-            console.log("Resizing chart");
-          chartRef.resize();
-        });
-
-        resizeObserver.observe(chartRef.$el.parentNode);
-      }
-    };
-
-    // Wait until the next tick to initialize the observer
-    setTimeout(initResizeObserver, 0);
-
-    // Return the cleanup function
-    return () => {
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
-    };
-  });
-
     $: {
         //time should be hr:min:sec:ms
         
@@ -133,6 +98,9 @@
                         <span>{dataPointName}</span>
                         <span>↓</span>
                     </button>
+                    <button class="btn variant-glass-secondary justify-between h-5 py-1 text-xs" on:click={()=>{resetZoom()}}>
+                        <span>Reset Zoom</span>
+                    </button>
                 {/if}
             <svelte:fragment slot="trail">
                 <button type= 'button' class='btn h-7 w-7 p-0 top-0 right-0 absolute hover:variant-glass-surface ' on:click={() => {removePane(index)}}>
@@ -141,7 +109,7 @@
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>
-    <Line {data} class="size-full" options ={{
+    <Line bind:chart {data} class="size-full" options ={{
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -149,6 +117,7 @@
                 mode: 'index',
                 intersect: false,
             },
+            // @ts-ignore
             crosshair: {
                 line: {
                     color: 'rgba(0, 0, 0, 0.5)',
@@ -156,12 +125,13 @@
                     dashPattern: [5, 5],
                 },
                 zoom: {
-                    enabled: false,
+                    enabled: true,
+                    zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box 
+                    zoomboxBorderColor: '#48F',                         // border color of zoom box
+                    zoomButtonText: 'Reset Zoom',                       // reset zoom button text
+                    zoomButtonClass: 'reset-zoom', 
                 },
             },
         }
     }}/>
-    <!-- <div class="size-full">
-        <Chart bind:this={chartRef} {options}/>
-    </div> -->
 </AppShell>
