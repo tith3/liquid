@@ -67,8 +67,9 @@
   });
 
     $: {
-        //text = `Pane ${index}`;
-        data.labels = $dsDataSet.map((d) => new Date(d.time).toLocaleDateString());
+        //time should be hr:min:sec:ms
+        
+        data.labels = $dsDataSet.map((d) => new Date(d.time).toLocaleTimeString());
         console.log(dataPointName);
         //get corresponding data points
         data.datasets[0].data = $dsDataSet.map((d) => getDataPointByName(dataPointName, d));
