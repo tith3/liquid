@@ -66,15 +66,15 @@
     };
   });
 
-    // $: {
-    //     //text = `Pane ${index}`;
-    //     data.labels = $dsDataSet.map((d) => new Date(d.time).toLocaleDateString());
-    //     console.log(dataPointName);
-    //     //get corresponding data points
-    //     data.datasets[0].data = $dsDataSet.map((d) => getDataPointByName(dataPointName, d));
-    //     //get corresponding label
-    //     data.datasets[0].label = dataPointName;
-    // }
+    $: {
+        //text = `Pane ${index}`;
+        data.labels = $dsDataSet.map((d) => new Date(d.time).toLocaleDateString());
+        console.log(dataPointName);
+        //get corresponding data points
+        data.datasets[0].data = $dsDataSet.map((d) => getDataPointByName(dataPointName, d));
+        //get corresponding label
+        data.datasets[0].label = dataPointName;
+    }
 
     
     /// Header Controls
