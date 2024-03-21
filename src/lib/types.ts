@@ -3,6 +3,7 @@ export interface PaneData {
     index: number;
     dataPointName: DSDataPointNames;
     headerExpanded: boolean;
+    color: string
 }
 
 export interface PaneDimensions {

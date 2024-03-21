@@ -14,7 +14,9 @@ const defaultPaneDimensions: PaneDimensions = {
     vertical: false,
 }
 
-
+const defaultDataPointName = DSDataPointNames.LIQUIDITY_QUOTE
+const defaultColor = 'bg-error-500'
+const defaultHeaderExpanded = true
 //store the dimensions of the panes
 export const paneDimensions: Writable<PaneDimensions> = localStorageStore('paneDimensions', defaultPaneDimensions)
 
@@ -25,8 +27,13 @@ export function addPane() {
     }
     panes.update((panes) => {
         const index = panes.length
-        const dataPointName = DSDataPointNames.LIQUIDITY_QUOTE
-        return [...panes, { index, dataPointName, headerExpanded: true}]
+        
+        return [...panes, {
+             index,
+             dataPointName:  defaultDataPointName, 
+             headerExpanded: defaultHeaderExpanded, 
+             color: defaultColor
+            }]
     })
 }
 
@@ -39,13 +46,21 @@ export function removePane(index: number) {
     panes.update((panes) => {
         const newPanes = panes.filter((pane) => pane.index !== index);
         return newPanes.map((pane, i) => {
-            return { ...pane, index: i, headerExpanded: pane.headerExpanded }
+            return { ...pane, 
+                index: i, 
+                headerExpanded: pane.headerExpanded
+                }
         });
     });
 }
 
 export function resetPanes() {
-    const newPane = { index: 0, dataPointName: DSDataPointNames.LIQUIDITY_QUOTE, headerExpanded: true}
+    const newPane = { 
+        index: 0, 
+        dataPointName: defaultDataPointName, 
+        headerExpanded: defaultHeaderExpanded,
+        color: defaultColor
+        }
     panes.set([newPane])
 }
 
@@ -57,6 +72,9 @@ export function setDataPointName(index: number, dataPointName: DSDataPointNames)
     panes.update(panes => panes.map((pane, i) => i === index ? { ...pane, dataPointName } : pane));
 }
 
+export function setColor(index: number, color: string) {
+    panes.update(panes => panes.map((pane, i) => i === index ? { ...pane, color } : pane));
+}
 export function shrinkPanes() {
     const maxPanes = get(paneDimensions).rows * get(paneDimensions).cols
 
@@ -69,3 +87,5 @@ export function shrinkPanes() {
 export function resetPaneSize() {
     resetKey.update((key) => key + 1)
 }
+
+
