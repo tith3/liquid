@@ -17,9 +17,18 @@
 	import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale } from 'chart.js';
 	import autocolors from 'chartjs-plugin-autocolors';
 	import CrossHairPlugin from 'chartjs-plugin-crosshair';
-
-	ChartJS.register(autocolors, CrossHairPlugin, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale);
-
+	import { modeCurrent } from '@skeletonlabs/skeleton';
+	
+	ChartJS.register( CrossHairPlugin, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale);
+	$: {
+		console.log($modeCurrent)
+		 if($modeCurrent) {
+			ChartJS.defaults.color = 'black'
+		} else {
+			//only works on reload so black for now
+			ChartJS.defaults.color = 'black'
+		}
+	}
 </script>
 <!-- Necassary to allow toasts -->
 <Toast />
@@ -29,7 +38,9 @@
 	<svelte:fragment slot="header">
 		<AppBar padding='py-0 px-4' >
 			<svelte:fragment slot="lead">
-				<Icon width='10' height='10'/>
+				<div class='size-10'>
+					<Icon />
+				</div>
 				<p class='text-xl uppercase p-4'> liquid </p>
 			</svelte:fragment>
 				<HeaderControls />
