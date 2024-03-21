@@ -1,14 +1,15 @@
 <script lang='ts'>
     import { Line } from 'svelte-chartjs'
-    import {AppShell, AppBar, type PopupSettings, ListBox, ListBoxItem, popup} from '@skeletonlabs/skeleton';  
-    import {removePane, toggleHeaderExpanded, setDataPointName} from '$lib/stores/panes';  
+    import {AppShell, AppBar, type PopupSettings, ListBox, ListBoxItem, popup, modeCurrent} from '@skeletonlabs/skeleton';  
+    import {removePane, toggleHeaderExpanded, setDataPointName, setColor} from '$lib/stores/panes';  
     import { X, CaretDoubleRight } from 'phosphor-svelte';
     import { type PaneData, DSDataPointNames } from '$lib/types';
     import { dsDataSet } from '$lib/stores/dsdata';
     import {getDataPointByName} from '$lib/utils/dsdata';
+    import { tailwindColorToHex } from '$lib/utils/color';
 
     export let paneData: PaneData;
-    $: ({dataPointName, index, headerExpanded} = paneData);
+    $: ({dataPointName, index, headerExpanded, color} = paneData);
     
     let chart: any;
     function resetZoom(){
@@ -24,7 +25,10 @@
     let data = {
         labels: [] as string[],
         datasets: [
-            {
+            {   
+                
+                backgroundColor: tailwindColorToHex(color),
+                borderColor: tailwindColorToHex(color),
                 label: dataPointName,
                 data: [] as number[],
                 lineTension: 0.1,
@@ -35,11 +39,13 @@
         //time should be hr:min:sec:ms
         
         data.labels = $dsDataSet.map((d) => new Date(d.time).toLocaleTimeString());
-        console.log(dataPointName);
         //get corresponding data points
         data.datasets[0].data = $dsDataSet.map((d) => getDataPointByName(dataPointName, d));
         //get corresponding label
         data.datasets[0].label = dataPointName;
+        //color
+        data.datasets[0].backgroundColor = tailwindColorToHex(color);
+        data.datasets[0].borderColor = tailwindColorToHex(color);
     }
 
     
@@ -67,19 +73,57 @@
 
     let dataCombobox = DSDataPointNames.LIQUIDITY_QUOTE;
     $: {
-        console.log("Changing data point name " + dataCombobox);
         //check if datacomboboc is not undegined
         if(dataCombobox !== undefined){
             setDataPointName(index, dataCombobox);
         }
     }
+    //color picker
+    let dataColorPicker = 'bg-error-500';
+    let colorPickerId = 'popupColorPicker' + index;
+    let popupColorPicker: PopupSettings = {
+        event: 'click',
+        target: colorPickerId,
+        placement: 'bottom',
+        closeQuery: '.listbox-item',
+    }
+    $: {
+        //check if index is undefined
+        if(index !== undefined){
+            colorPickerId = 'popupColorPicker' + index;
+            popupColorPicker = {
+                event: 'click',
+                target: colorPickerId,
+                placement: 'bottom',
+                closeQuery: '.listbox-item',
+            }
+        }
+    }
+
+    $: {
+        //check if dataColorPicker is not undefined
+        if(dataColorPicker !== undefined){
+            setColor(index, dataColorPicker);
+        }
+    }
+
 </script>
 
 <!-- Popups -->
-<div class="card variant-glass-secondary text-xs p-1 z-50" data-popup={PDCId}>
+<div class="card variant-glass-surface text-sm p-1 z-50" data-popup={PDCId}>
     <ListBox>
         {#each Object.values(DSDataPointNames) as item}
             <ListBoxItem bind:group={dataCombobox} name="medium" value={item} class="listbox-item">{item}</ListBoxItem>
+        {/each}
+    </ListBox>
+</div>
+
+<div class="card variant-glass text-xs p-1 z-50" data-popup={colorPickerId}>
+    <ListBox>
+        {#each ['bg-primary-500', 'bg-secondary-500', 'bg-tertiary-500', 'bg-success-500', 'bg-warning-500', 'bg-error-500'] as item}
+            <ListBoxItem bind:group={dataColorPicker} name="medium" value={item} class="listbox-item">
+                <div class="w-5 h-5 rounded-full {item}"></div>
+            </ListBoxItem>
         {/each}
     </ListBox>
 </div>
@@ -94,13 +138,18 @@
                 </button>
             </svelte:fragment>
                 {#if headerExpanded}
-                    <button class="btn variant-glass-secondary justify-between h-5 py-1 text-xs" use:popup={popupDataCombobox}>
-                        <span>{dataPointName}</span>
-                        <span>↓</span>
-                    </button>
-                    <button class="btn variant-glass-secondary justify-between h-5 py-1 text-xs" on:click={()=>{resetZoom()}}>
-                        <span>Reset Zoom</span>
-                    </button>
+                    <div class="flex justify-start space-x-1">
+                        <button class="btn w-min variant-ringed justify-between h-5 p-1 text-xs" use:popup={popupDataCombobox}>
+                            <span class="">{dataPointName}</span>
+                            <span class="">↓</span>
+                        </button>
+                        <button class="btn w-min variant-ringed  justify-between h-5 p-1 text-xs" on:click={()=>{resetZoom()}}>
+                            <span class="">Reset Zoom</span>
+                        </button>
+                        <button class="btn variant-ringed w-5 h-5 p-0 z-20 relative" use:popup={popupColorPicker}>
+                            <div class="size-5 {color} relative z-1"/>
+                        </button>
+                    </div>
                 {/if}
             <svelte:fragment slot="trail">
                 <button type= 'button' class='btn h-7 w-7 p-0 top-0 right-0 absolute hover:variant-glass-surface ' on:click={() => {removePane(index)}}>
@@ -109,7 +158,7 @@
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>
-    <Line bind:chart {data} class="size-full" options ={{
+    <Line key={$modeCurrent} bind:chart {data} class="size-full" options ={{
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
