@@ -23,10 +23,10 @@
 	$: {
 		console.log($modeCurrent)
 		 if($modeCurrent) {
-			ChartJS.defaults.color = 'black'
+			ChartJS.defaults.color = 'gray'
 		} else {
 			//only works on reload so black for now
-			ChartJS.defaults.color = 'black'
+			ChartJS.defaults.color = 'gray'
 		}
 	}
 </script>
