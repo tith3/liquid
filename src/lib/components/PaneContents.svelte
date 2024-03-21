@@ -146,8 +146,8 @@
                         <button class="btn w-min variant-ringed  justify-between h-5 p-1 text-xs" on:click={()=>{resetZoom()}}>
                             <span class="">Reset Zoom</span>
                         </button>
-                        <button class="btn variant-ringed w-5 h-5 p-0 z-20 relative" use:popup={popupColorPicker}>
-                            <div class="size-5 {color} relative z-1"/>
+                        <button class="btn variant-ringed w-5 h-5 p-0" use:popup={popupColorPicker}>
+                            <div class="size-5 {color}"/>
                         </button>
                     </div>
                 {/if}
